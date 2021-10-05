@@ -1,9 +1,7 @@
 package io.github.takusan23.developerhide
 
 import android.os.Bundle
-import android.widget.FrameLayout
 import android.widget.Toast
-import android.window.SplashScreenView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -37,8 +35,6 @@ class MainActivity : ComponentActivity() {
     @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // setTranslucent(true)
 
         setContent {
             val context = LocalContext.current

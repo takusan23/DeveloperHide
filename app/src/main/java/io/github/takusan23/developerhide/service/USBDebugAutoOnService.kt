@@ -30,7 +30,7 @@ class USBDebugAutoOnService : Service() {
         }.apply {
             setContentTitle("USBデバックを戻すサービス")
             setContentText("アプリが終了したらUSBデバッグが有効になります")
-            setSmallIcon(R.drawable.ic_outline_widgets_24).build()
+            setSmallIcon(R.drawable.android_developer_hide).build()
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 // すぐに通知を出す
                 setForegroundServiceBehavior(Notification.FOREGROUND_SERVICE_IMMEDIATE)
