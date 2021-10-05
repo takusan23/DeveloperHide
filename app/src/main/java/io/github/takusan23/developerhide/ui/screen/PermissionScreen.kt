@@ -35,13 +35,13 @@ fun PermissionScreen(onCheckButtonClick: () -> Unit) {
                 .padding(5.dp)
         )
         Text(
-            text = "パソコンと接続する作業が必要です。",
+            text = "パソコンと接続して作業が必要です。",
             fontSize = 20.sp,
             modifier = Modifier
                 .padding(5.dp)
         )
         Text(
-            text = "パソコンと接続して、USBデバッグを有効にした上で、ターミナルで以下のコマンドを実行する必要があります ",
+            text = "パソコンと接続して、USBデバッグを有効にした上で、ターミナルで以下のコマンドを実行する必要があります。一部のROMではUSBデバッグ以外の設定を変更にする必要がある模様。",
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .padding(5.dp)

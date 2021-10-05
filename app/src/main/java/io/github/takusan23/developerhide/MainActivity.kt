@@ -1,12 +1,17 @@
 package io.github.takusan23.developerhide
 
 import android.os.Bundle
+import android.widget.FrameLayout
+import android.widget.Toast
+import android.window.SplashScreenView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -23,12 +28,18 @@ import io.github.takusan23.developerhide.ui.theme.DeveloperHideTheme
  * 初回起動時にターミナルに入力するコマンド
  *
  * adb shell pm grant io.github.takusan23.developerhide android.permission.WRITE_SECURE_SETTINGS
+ *
+ * MIUI（Xiaomi）ユーザーは、USBデバッグ（セキュリティ設定）も有効にする必要がある模様
+ *
  * */
 class MainActivity : ComponentActivity() {
 
     @ExperimentalMaterialApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // setTranslucent(true)
+
         setContent {
             val context = LocalContext.current
             val prefSetting = remember { PreferenceManager.getDefaultSharedPreferences(context) }
@@ -40,7 +51,10 @@ class MainActivity : ComponentActivity() {
                 SetSystemBarColorCompose()
 
                 // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.primary.copy(0.2f)) {
+                Surface(
+                    color = MaterialTheme.colors.primary.copy(0.2f),
+                    contentColor = if (isSystemInDarkTheme()) Color.White else Color.Black
+                ) {
 
 
                     val navController = rememberNavController()
@@ -53,6 +67,8 @@ class MainActivity : ComponentActivity() {
                             PermissionScreen(onCheckButtonClick = {
                                 if (PermissionCheckTool.isGrantWriteSecureSettings(context)) {
                                     navController.navigate("home")
+                                } else {
+                                    Toast.makeText(context, "権限が付与されていません", Toast.LENGTH_SHORT).show()
                                 }
                             })
                         }

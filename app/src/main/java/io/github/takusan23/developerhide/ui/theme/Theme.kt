@@ -15,7 +15,7 @@ import androidx.preference.PreferenceManager
 private val DarkColorPalette = darkColors(
     primary = Green200,
     primaryVariant = Green700,
-    secondary = Green500
+    secondary = Green500,
 )
 
 private val LightColorPalette = lightColors(
