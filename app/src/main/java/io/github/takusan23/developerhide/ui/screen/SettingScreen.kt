@@ -15,7 +15,7 @@ import io.github.takusan23.developerhide.ui.components.SwitchSettingItem
 /**
  * 設定画面
  * */
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SettingScreen(onNavigate: (String) -> Unit) {
     Box(

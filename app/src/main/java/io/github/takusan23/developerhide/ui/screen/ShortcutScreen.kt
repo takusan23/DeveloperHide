@@ -27,7 +27,7 @@ import io.github.takusan23.developerhide.ui.components.ScreenTitle
  *
  * @param onClick 押したときに呼ばれる。引数はパッケージID
  * */
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun ShortcutScreen() {
     val context = LocalContext.current

@@ -18,7 +18,7 @@ import io.github.takusan23.developerhide.ui.components.SettingTextOnlyItem
 /**
  * このアプリについて画面
  * */
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun KonoAppScreen() {
     val appInfo = getCurrentAppInfo()

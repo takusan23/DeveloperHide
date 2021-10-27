@@ -21,7 +21,7 @@ import io.github.takusan23.developerhide.ui.components.ScreenTitle
  *
  * @param onNavigate ナビゲート
  * */
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(onNavigate: (String) -> Unit) {
 
