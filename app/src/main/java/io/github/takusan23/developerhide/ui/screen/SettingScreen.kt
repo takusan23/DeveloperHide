@@ -24,17 +24,21 @@ fun SettingScreen(onNavigate: (String) -> Unit) {
     ) {
         LazyColumn(
             content = {
-                item { ScreenTitle(title = "設定画面") }
-                item { Divider() }
                 item {
+                    ScreenTitle(title = "設定画面")
+                    Divider()
                     SwitchSettingItem(
                         preferenceKey = "enable_material_you",
                         name = "Material You（動的テーマ）を利用する",
                         icon = R.drawable.ic_outline_format_paint_24,
                         description = "Android 12以前では動きません"
                     )
-                }
-                item {
+                    SwitchSettingItem(
+                        preferenceKey = "enable_development_hide",
+                        name = "「開発者向けオプション」自体を無効にする",
+                        icon = R.drawable.ic_outline_developer_mode_24,
+                        description = "開発者向けオプションのチェックに引っかかる場合はどうぞ"
+                    )
                     SettingTextOnlyItem(
                         name = "このアプリについて",
                         icon = R.drawable.ic_outline_info_24,
