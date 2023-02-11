@@ -9,10 +9,10 @@ import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.produceState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
@@ -63,6 +63,11 @@ fun ShortcutScreen() {
 @Composable
 private fun ShortcutAppList(resolveInfo: ResolveInfo, onClick: () -> Unit) {
     val packageManager = LocalContext.current.packageManager
+    val iconBitmap = remember { mutableStateOf<ImageBitmap?>(null) }
+
+    LaunchedEffect(key1 = Unit) {
+        iconBitmap.value = resolveInfo.loadIcon(packageManager).toBitmap().asImageBitmap()
+    }
 
     Surface(
         modifier = Modifier
@@ -71,15 +76,20 @@ private fun ShortcutAppList(resolveInfo: ResolveInfo, onClick: () -> Unit) {
         onClick = onClick
     ) {
         Row(modifier = Modifier.padding(5.dp)) {
-            Image(
-                bitmap = resolveInfo.loadIcon(packageManager).toBitmap().asImageBitmap(),
-                modifier = Modifier.size(50.dp),
-                contentDescription = "icon"
-            )
+            if (iconBitmap.value != null) {
+                Image(
+                    bitmap = iconBitmap.value!!,
+                    modifier = Modifier.size(50.dp),
+                    contentDescription = "icon"
+                )
+            } else {
+                Spacer(modifier = Modifier.size(50.dp))
+            }
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(start = 10.dp))
+                    .padding(start = 10.dp)
+            )
             {
                 Text(
                     text = resolveInfo.loadLabel(packageManager)?.toString() ?: "不明",
