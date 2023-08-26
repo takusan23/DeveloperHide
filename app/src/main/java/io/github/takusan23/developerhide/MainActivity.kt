@@ -1,11 +1,14 @@
 package io.github.takusan23.developerhide
 
+import android.app.Activity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.view.WindowCompat
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -41,7 +44,10 @@ class MainActivity : ComponentActivity() {
             DeveloperHideTheme(isUseMaterialYou = isEnableMaterialYou) {
 
                 // ステータスバーとナビゲーションバーの色
-                // SetSystemBarColorCompose()
+                LaunchedEffect(key1 = Unit) {
+                    val window = (context as Activity).window
+                    WindowCompat.setDecorFitsSystemWindows(window, false)
+                }
 
                 // ルーティング
                 val navController = rememberNavController()

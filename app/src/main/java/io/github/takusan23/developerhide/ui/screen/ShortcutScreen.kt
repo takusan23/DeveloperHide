@@ -11,11 +11,13 @@ import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,26 +34,36 @@ import io.github.takusan23.developerhide.tool.CreateShortcutTool
 @Composable
 fun ShortcutScreen() {
     val context = LocalContext.current
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val appList = produceState<List<ResolveInfo>>(initialValue = listOf(), producer = { value = AppList.getAppListFromCategoryLauncher(context = context) })
 
     Scaffold(
-        topBar = { LargeTopAppBar(title = { Text(text = "ショートカット作成画面") }) }
+        topBar = {
+            LargeTopAppBar(
+                title = { Text(text = "ショートカット作成画面") },
+                scrollBehavior = scrollBehavior
+            )
+        }
     ) {
-        Box(modifier = Modifier.padding(it)) {
-            if (appList.value.isEmpty()) {
+        if (appList.value.isEmpty()) {
+            Box(modifier = Modifier.padding(it)) {
                 LoadingScreen()
-            } else {
-                LazyColumn {
-                    items(appList.value) { app ->
-                        ShortcutAppList(
-                            resolveInfo = app,
-                            onClick = {
-                                // ショートカット作成
-                                CreateShortcutTool.createHomeScreenShortcut(context, app.activityInfo.packageName)
-                            }
-                        )
-                        Divider()
-                    }
+            }
+        } else {
+            LazyColumn(
+                modifier = Modifier
+                    .padding(it)
+                    .nestedScroll(scrollBehavior.nestedScrollConnection)
+            ) {
+                items(appList.value) { app ->
+                    ShortcutAppList(
+                        resolveInfo = app,
+                        onClick = {
+                            // ショートカット作成
+                            CreateShortcutTool.createHomeScreenShortcut(context, app.activityInfo.packageName)
+                        }
+                    )
+                    Divider()
                 }
             }
         }

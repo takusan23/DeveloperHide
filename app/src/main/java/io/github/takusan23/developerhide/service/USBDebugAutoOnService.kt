@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ServiceInfo
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
@@ -31,7 +32,12 @@ class USBDebugAutoOnService : Service() {
             foregroundServiceBehavior = NotificationCompat.FOREGROUND_SERVICE_IMMEDIATE
         }.build()
 
-        startForeground(1, notification)
+        // TODO Compat が追加されたら置き換える
+        if (Build.VERSION.SDK_INT >= 34) {
+            startForeground(1, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)
+        } else {
+            startForeground(1, notification)
+        }
         return START_NOT_STICKY
     }
 

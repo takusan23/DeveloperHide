@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+
+    <!-- Foreground Service を使うため。 SPECIAL_USE なのは、アプリを閉じた後に USB デバッグを戻すため（ Activity だとなんかうまく行かなかった） -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 
     <!-- PackageManager#getLaunchIntentForPackage()がnullを返すのはこれを書き忘れているから -->
     <queries>
@@ -39,7 +42,12 @@
 
         <service
             android:name=".service.USBDebugAutoOnService"
-            android:exported="true" />
+            android:exported="true"
+            android:foregroundServiceType="specialUse">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="Re-enable Usb-Debug when app close." />
+        </service>
 
     </application>
 

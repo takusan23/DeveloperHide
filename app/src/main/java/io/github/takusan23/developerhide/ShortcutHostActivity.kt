@@ -40,8 +40,11 @@ class ShortcutHostActivity : AppCompatActivity() {
 
         // USBデバッグを無効にしないといけないアプリを起動
         val packageName = intent.getStringExtra("package_name")!!
-        val launchIntent = packageManager.getLaunchIntentForPackage(packageName)
-        launchIntent?.flags = 0 // 勝手に Intent.FLAG_ACTIVITY_NEW_TASK を指定するので消す
+        println(packageName)
+        val launchIntent = packageManager.getLaunchIntentForPackage(packageName)?.apply {
+            categories?.add(Intent.CATEGORY_LAUNCHER) // ランチャーから起動した時はこれが付与されるので真似するように
+            flags = 0 // 勝手に Intent.FLAG_ACTIVITY_NEW_TASK を指定するので消す
+        }
         activityCloseCallback.launch(launchIntent)
 
         // サービス起動
