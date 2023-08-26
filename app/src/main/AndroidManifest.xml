@@ -46,7 +46,7 @@
             android:foregroundServiceType="specialUse">
             <property
                 android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
-                android:value="Re-enable Usb-Debug when app close." />
+                android:value="Use a service to re-enable USB debugging." />
         </service>
 
     </application>
