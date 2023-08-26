@@ -5,10 +5,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Divider
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material3.Divider
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,30 +22,26 @@ import androidx.compose.ui.unit.sp
 import androidx.core.graphics.drawable.toBitmap
 import io.github.takusan23.developerhide.applist.AppList
 import io.github.takusan23.developerhide.tool.CreateShortcutTool
-import io.github.takusan23.developerhide.ui.components.ScreenTitle
 
 /**
  * ショートカット作成画面
  *
  * @param onClick 押したときに呼ばれる。引数はパッケージID
  * */
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShortcutScreen() {
     val context = LocalContext.current
     val appList = produceState<List<ResolveInfo>>(initialValue = listOf(), producer = { value = AppList.getAppListFromCategoryLauncher(context = context) })
 
-    if (appList.value.isEmpty()) {
-        LoadingScreen()
-    } else {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            LazyColumn(
-                content = {
-                    item { ScreenTitle(title = "ショートカット作成画面") }
-                    item { Divider() }
+    Scaffold(
+        topBar = { LargeTopAppBar(title = { Text(text = "ショートカット作成画面") }) }
+    ) {
+        Box(modifier = Modifier.padding(it)) {
+            if (appList.value.isEmpty()) {
+                LoadingScreen()
+            } else {
+                LazyColumn {
                     items(appList.value) { app ->
                         ShortcutAppList(
                             resolveInfo = app,
@@ -52,14 +50,14 @@ fun ShortcutScreen() {
                                 CreateShortcutTool.createHomeScreenShortcut(context, app.activityInfo.packageName)
                             }
                         )
+                        Divider()
                     }
                 }
-            )
+            }
         }
     }
 }
 
-@ExperimentalMaterialApi
 @Composable
 private fun ShortcutAppList(resolveInfo: ResolveInfo, onClick: () -> Unit) {
     val packageManager = LocalContext.current.packageManager

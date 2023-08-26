@@ -1,9 +1,18 @@
 package io.github.takusan23.developerhide.ui.screen
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -14,14 +23,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.github.takusan23.developerhide.R
 import io.github.takusan23.developerhide.data.MenuItemData
-import io.github.takusan23.developerhide.ui.components.ScreenTitle
 
 /**
  * ホーム画面
  *
  * @param onNavigate ナビゲート
  * */
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(onNavigate: (String) -> Unit) {
 
@@ -32,23 +40,22 @@ fun HomeScreen(onNavigate: (String) -> Unit) {
         )
     }
 
-    Column(modifier = Modifier.fillMaxSize()) {
-        ScreenTitle(title = "ホーム画面")
-        Divider()
-        LazyColumn(content = {
+    Scaffold(
+        topBar = { LargeTopAppBar(title = { Text(text = "ホーム画面") }) }
+    ) {
+        LazyColumn(modifier = Modifier.padding(it)) {
             items(menuItem) { item ->
                 HomeScreenMenuItem(
-                    item.name,
-                    item.icon,
-                    item.description,
+                    name = item.name,
+                    icon = item.icon,
+                    description = item.description,
                     onClick = { onNavigate(item.route) }
                 )
             }
-        })
+        }
     }
 }
 
-@ExperimentalMaterialApi
 @Composable
 private fun HomeScreenMenuItem(name: String, icon: Int, description: String?, onClick: () -> Unit) {
     Surface(

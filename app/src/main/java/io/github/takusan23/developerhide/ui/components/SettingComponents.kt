@@ -1,7 +1,14 @@
 package io.github.takusan23.developerhide.ui.components
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,7 +30,6 @@ import androidx.preference.PreferenceManager
  * @param description 説明
  * @param preferenceKey 設定のキー
  * */
-@ExperimentalMaterialApi
 @Composable
 fun SwitchSettingItem(
     preferenceKey: String,
@@ -65,7 +71,7 @@ fun SwitchSettingItem(
                 )
                 Text(text = description ?: "")
             }
-            SwitchAndroidS(
+            Switch(
                 modifier = Modifier
                     .padding(5.dp)
                     .align(alignment = Alignment.CenterVertically),
@@ -84,13 +90,12 @@ fun SwitchSettingItem(
  * @param description 説明
  * @param onClick 押したとき
  * */
-@ExperimentalMaterialApi
 @Composable
 fun SettingTextOnlyItem(
     name: String,
     icon: Int?,
     description: String?,
-    onClick: () -> Unit,
+    onClick: () -> Unit = {}
 ) {
     Surface(
         modifier = Modifier
