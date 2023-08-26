@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
@@ -14,7 +13,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,7 +20,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.github.takusan23.developerhide.R
-import io.github.takusan23.developerhide.data.MenuItemData
 
 /**
  * ホーム画面
@@ -32,25 +29,27 @@ import io.github.takusan23.developerhide.data.MenuItemData
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(onNavigate: (String) -> Unit) {
-
-    val menuItem = remember {
-        mutableListOf(
-            MenuItemData("ショートカット作成", R.drawable.ic_outline_widgets_24, "USBデバッグを自動でON/OFF", "shortcut"),
-            MenuItemData("設定", R.drawable.ic_outline_settings_24, "ライセンスなど", "setting"),
-        )
-    }
-
     Scaffold(
         topBar = { LargeTopAppBar(title = { Text(text = "ホーム画面") }) }
     ) {
         LazyColumn(modifier = Modifier.padding(it)) {
-            items(menuItem) { item ->
+            item {
                 HomeScreenMenuItem(
-                    name = item.name,
-                    icon = item.icon,
-                    description = item.description,
-                    onClick = { onNavigate(item.route) }
-                )
+                    name = "ショートカット作成",
+                    icon = R.drawable.ic_outline_widgets_24,
+                    description = "USBデバッグを自動でON/OFF"
+                ) {
+                    onNavigate("shortcut")
+                }
+            }
+            item {
+                HomeScreenMenuItem(
+                    name = "設定",
+                    icon = R.drawable.ic_outline_settings_24,
+                    description = "ライセンスなど"
+                ) {
+                    onNavigate("setting")
+                }
             }
         }
     }
